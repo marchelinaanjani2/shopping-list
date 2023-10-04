@@ -14,6 +14,26 @@
             </ul>
         </div>
     </nav>
+    <h1>Shopping List Page</h1>
+
+    <h5>Name:</h5>
+    <p>{{name}}</p>
+
+    <h5>Class:</h5>
+    <p>{{class}}</p>
+
+    <!-- Tabel produk akan ditampilkan di sini -->
+    <table class="table" id="product_table">
+        <!-- Data produk akan dimuat oleh JavaScript -->
+    </table>
+
+    <h5>Sesi terakhir login: {{ last_login }}</h5>
+
+    <a href="{% url 'main:create_product' %}">
+        <button>
+            Add New Product
+        </button>
+    </a>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -42,26 +62,18 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal" onclick="addProduct()">Add Product</button>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Product by AJAX</button>
                 </div>
             </div>
         </div>
     </div>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Product by AJAX</button>
 
-    <div>
-        <!-- Tabel produk akan ditampilkan di sini -->
-        <table class="table" id="product_table">
-            <!-- Data produk akan dimuat oleh JavaScript -->
-        </table>
-    </div>
 
     <script>
         async function getProducts() {
             return fetch("{% url 'main:get_product_json' %}").then((res) => res.json())
         }
-    </script>
-
-    <script>
+   
         async function refreshProducts() {
             document.getElementById("product_table").innerHTML = ""
             const products = await getProducts()
@@ -82,9 +94,7 @@
             
             document.getElementById("product_table").innerHTML = htmlString
         }
-    </script>
-
-    <script>
+    
         function addProduct() {
             fetch("{% url 'main:add_product_ajax' %}", {
                 method: "POST",
