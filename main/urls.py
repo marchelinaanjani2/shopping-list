@@ -5,8 +5,7 @@ from main.views import login_user #sesuaikan dengan nama fungsi yang dibuat
 from main.views import logout_user
 from main.views import edit_product, delete_product
 from main.views import get_product_json, add_product_ajax
-
-
+from authentication.views import login
 
 
 app_name = 'main'
@@ -25,4 +24,11 @@ urlpatterns = [
     path('delete/<int:id>', delete_product, name='delete_product'),
     path('get-product/', get_product_json, name='get_product_json'),
     path('create-product-ajax/', add_product_ajax, name='add_product_ajax')
+]
+
+app_name = 'authentication'
+
+urlpatterns = [
+    path('login/', login, name='login'),
+    path('auth/', include('authentication.urls')),
 ]
