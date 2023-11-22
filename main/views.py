@@ -141,28 +141,20 @@ def add_product_ajax(request):
 
 
 @csrf_exempt
-def login(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        if user.is_active:
-            auth_login(request, user)
-            # Status login sukses.
-            return JsonResponse({
-                "username": user.username,
-                "status": True,
-                "message": "Login sukses!"
-                # Tambahkan data lainnya jika ingin mengirim data ke Flutter.
-            }, status=200)
-        else:
-            return JsonResponse({
-                "status": False,
-                "message": "Login gagal, akun dinonaktifkan."
-            }, status=401)
+def create_product_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
 
+        new_product = Product.objects.create(
+            user = request.user,
+            name = data["name"],
+            price = int(data["price"]),
+            description = data["description"]
+        )
+
+        new_product.save()
+
+        return JsonResponse({"status": "success"}, status=200)
     else:
-        return JsonResponse({
-            "status": False,
-            "message": "Login gagal, periksa kembali email atau kata sandi."
-        }, status=401)
+        return JsonResponse({"status": "error"}, status=401)

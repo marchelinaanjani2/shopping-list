@@ -23,7 +23,7 @@ from django.urls import path, include
 urlpatterns = [
     path('', include('main.urls')),
     path('admin/', admin.site.urls),
-    path('auth/', include('authentication.urls')),
     # path('xml/<int:id>/', show_xml_by_id, name='show_xml_by_id'),
     # path('json/<int:id>/', show_json_by_id, name='show_json_by_id'),
+    path('auth/', include('authentication.urls')),
 ]
